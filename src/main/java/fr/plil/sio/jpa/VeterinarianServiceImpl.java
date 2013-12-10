@@ -2,44 +2,97 @@ package fr.plil.sio.jpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.List;
 
+@Service("veterinarianService")
 public class VeterinarianServiceImpl implements VeterinarianService {
 
     private final static Logger logger = LoggerFactory.getLogger(VeterinarianServiceImpl.class);
 
+    @Resource
+    private VeterinarianRepository veterinarianRepository;
+
+    @Resource
+    private AnimalService animalService;
+
     @Override
+    @Transactional
     public Veterinarian createVeterinarian(String name) {
-        logger.error("to complete");
-        return null;
+        if (name == null) {
+            throw new IllegalArgumentException("name must be not null");
+        }
+
+        if (veterinarianRepository.findByName(name) != null) {
+            throw new IllegalArgumentException("veterinarian already present");
+        }
+
+        Veterinarian veterinarian = new Veterinarian();
+        veterinarian.setName(name);
+
+        return veterinarian;
     }
 
     @Override
+    @Transactional
     public void removeVeterinarian(String name) {
-        logger.error("to complete");
+        Veterinarian veterinarian = veterinarianRepository.findByName(name);
+
+        if (veterinarian == null) {
+            throw new IllegalArgumentException("veterinarian not present");
+        }
+
+        veterinarianRepository.delete(veterinarian);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<Veterinarian> findAll() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return veterinarianRepository.findAll();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Veterinarian findByName(String name) {
-        logger.error("to complete");
-        return null;
+        if (name == null) {
+            throw new IllegalArgumentException("name must be not null");
+        }
+
+        return veterinarianRepository.findByName(name);
     }
 
     @Override
-    public boolean addAnimalToVeterinarian(String animal_name, String veterinarian_name) {
-        logger.error("to complete");
-        return false;
+    @Transactional
+    public void addAnimalToVeterinarian(String animalName, String veterinarianName) {
+        Veterinarian veterinarian = findByName(veterinarianName);
+        if (veterinarian == null) {
+            throw new IllegalArgumentException("veterinarian not present");
+        }
+
+        Animal animal = animalService.findByName(animalName);
+        if (animal == null) {
+            throw new IllegalArgumentException("animal not present");
+        }
+
+        veterinarian.addAnimal(animal);
     }
 
     @Override
-    public boolean removeAnimalToVeterinarian(String animal_name, String veterinarian_name) {
-        logger.error("to complete");
-        return false;
+    @Transactional
+    public void removeAnimalToVeterinarian(String animalName, String veterinarianName) {
+        Veterinarian veterinarian = findByName(veterinarianName);
+        if (veterinarian == null) {
+            throw new IllegalArgumentException("veterinarian not present");
+        }
+
+        Animal animal = animalService.findByName(animalName);
+        if (animal == null) {
+            throw new IllegalArgumentException("animal not present");
+        }
+
+        veterinarian.removeAnimal(animal);
     }
 }

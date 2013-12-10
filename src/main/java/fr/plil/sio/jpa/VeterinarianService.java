@@ -42,22 +42,22 @@ public interface VeterinarianService {
     /**
      * Add an animal to a veterinarian in the database.
      *
-     * @param animal_name       the animal name to add
-     * @param veterinarian_name the veterinarian name added to the animal
+     * @param animalName       the animal name to add
+     * @param veterinarianName the veterinarian name added to the animal
      * @return false if animal was already associated to veterinarian, false else
      * @throws NullPointerException if animal name or veterinarian name is null
      */
-    boolean addAnimalToVeterinarian(String animal_name, String veterinarian_name);
+    void addAnimalToVeterinarian(String animalName, String veterinarianName);
 
 
     /**
      * Remove an animal to a veterinarian in the database.
      *
-     * @param animal_name       the animal name to remove
-     * @param veterinarian_name the veterinarian name removed from the animal
+     * @param animalName       the animal name to remove
+     * @param veterinarianName the veterinarian name removed from the animal
      * @return false if animal was not associated to veterinarian, false else
      * @throws NullPointerException  if animal name or veterinarian name is null
      * @throws IllegalStateException if animal or veterinarian is not found in the database
      */
-    boolean removeAnimalToVeterinarian(String animal_name, String veterinarian_name);
+    void removeAnimalToVeterinarian(String animalName, String veterinarianName);
 }

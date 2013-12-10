@@ -29,10 +29,6 @@ public class Animal implements Serializable, Comparable<Animal> {
     @ManyToMany(mappedBy = "animals", cascade = CascadeType.REMOVE)
     private List<Veterinarian> veterinarians = new LinkedList<Veterinarian>();
 
-    public Long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -51,10 +47,6 @@ public class Animal implements Serializable, Comparable<Animal> {
 
     public List<Veterinarian> getVeterinarians() {
         return veterinarians;
-    }
-
-    public void setVeterinarians(List<Veterinarian> veterinarians) {
-        this.veterinarians = veterinarians;
     }
 
     @Override

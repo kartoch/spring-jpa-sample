@@ -26,6 +26,7 @@ public class OwnerServiceImpl implements OwnerService {
         Owner owner = new Owner();
         owner.setName(name);
         ownerRepository.save(owner);
+
         return owner;
     }
 

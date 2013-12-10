@@ -26,15 +26,14 @@ public class AnimalServiceTest {
 
     @Test
     public void testCreateAnimal() {
-        ownerService.createOwner("owner");
-        Owner owner = ownerService.findByName("owner");
+        Owner owner = ownerService.createOwner("owner");
         animalService.createAnimal("animal", "owner");
         assertEquals(1, animalService.findAll().size());
         Animal animal = animalService.findByName("animal");
-        assertEquals(owner, animal.getOwner());
+        assertSame(owner, animal.getOwner());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testCreateAnimalFailsIfNameNull() {
         ownerService.createOwner("owner");
         Owner owner = ownerService.findByName("owner");

@@ -7,14 +7,14 @@ public interface AnimalService {
     /**
      * Create an animal and add it to the owner.
      *
-     * @param name_animal name of the new animal
-     * @param name_owner  name of the owner
+     * @param nameAnimal name of the new animal
+     * @param nameOwner  name of the owner
      * @return the new animal instance with all dependencies resolved
-     * @throws NullPointerException  if name_animal or name_owner is null
+     * @throws NullPointerException  if nameAnimal or nameOwner is null
      * @throws IllegalStateException if owner does not exist in the database or if an animal with the same name exist
      *                               in the database
      */
-    Animal createAnimal(String name_animal, String name_owner);
+    Animal createAnimal(String nameAnimal, String nameOwner);
 
     /**
      * Delete an animal from the database and remove it from the owner and the veterinarians.

@@ -44,33 +44,45 @@ public class Veterinarian {
      * Add an animal to the veterinarian.
      *
      * @param animal the animal to add to the veterinarian
-     * @throws IllegalStateException if animal already present
-     * @throws NullPointerException  if parameter is null
+     * @return false if animal was already present, true else
+     * @throws NullPointerException if parameter is null
      */
     public void addAnimal(Animal animal) {
-        logger.error("to complete");
+        if (animal == null) {
+            throw new NullPointerException("animal must be not null");
+        }
+        animals.add(animal);
+        animal.getVeterinarians().add(this);
     }
 
     /**
      * Remove an animal from the veterinarian.
      *
      * @param animal the animal to remove from the veterinarian
-     * @throws IllegalStateException if animal not present in veterinarian
-     * @throws NullPointerException  if parameter is null
+     * @throws NullPointerException if parameter is null
      */
     public void removeAnimal(Animal animal) {
-        logger.error("to complete");
+        if (animal == null) {
+            throw new NullPointerException("animal must be not null");
+        }
+        animals.remove(animal);
+        animal.getVeterinarians().remove(this);
     }
 
     @Override
     public boolean equals(Object o) {
-        logger.error("to complete");
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Veterinarian that = (Veterinarian) o;
+
+        if (!name.equals(that.name)) return false;
+
         return true;
     }
 
     @Override
     public int hashCode() {
-        logger.error("to complete");
-        return 0;
+        return name.hashCode();
     }
 }

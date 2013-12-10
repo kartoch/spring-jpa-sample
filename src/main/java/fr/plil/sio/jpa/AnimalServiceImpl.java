@@ -18,21 +18,22 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     @Transactional
-    public Animal createAnimal(String name_animal, String name_owner) {
-        if (name_animal == null || name_owner == null) {
-            throw new IllegalArgumentException("animal or owner name must be not null");
+    public Animal createAnimal(String nameAnimal, String nameOwner) {
+        if (nameAnimal == null || nameOwner == null) {
+            throw new NullPointerException("animal or owner name must be not null");
         }
 
-        Owner owner = ownerRepository.findByName(name_owner);
+        Owner owner = ownerRepository.findByName(nameOwner);
 
         if (owner == null) {
             throw new IllegalArgumentException("cannot found owner");
         }
 
         Animal animal = new Animal();
-        animal.setName(name_animal);
-        animal.setOwner(owner);
+        animal.setName(nameAnimal);
+        owner.addAnimal(animal);
         animalRepository.save(animal);
+
         return animal;
     }
 
