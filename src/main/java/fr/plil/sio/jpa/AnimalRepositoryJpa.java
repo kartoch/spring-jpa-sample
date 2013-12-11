@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
@@ -17,7 +18,6 @@ public class AnimalRepositoryJpa implements AnimalRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
-
 
     @Override
     @Transactional
@@ -35,9 +35,12 @@ public class AnimalRepositoryJpa implements AnimalRepository {
     @Override
     @Transactional(readOnly = true)
     public Animal findByName(String name) {
-        Query q = entityManager.createQuery("SELECT a FROM Animal a WHERE a.name = ?").setParameter(1, name);
-        List<Animal> l = q.getResultList();
-        return (l.size() == 1 ? l.get(0) : null);
+        try {
+            Query q = entityManager.createQuery("SELECT a FROM Animal a WHERE a.name = ?").setParameter(1, name);
+            return (Animal) q.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override

@@ -5,10 +5,9 @@ import java.util.List;
 public interface VeterinarianRepository {
 
     /**
-     * Save or update an veterinarian instance in the database. If the veterinarian is not present in the database
-     * (i.e. if not other veterinarian in the database has the same name), set the id to an unique number and save it.
+     * Save a veterinarian instance in the database.
      *
-     * @param veterinarian the instance of veterinarian to save or update.
+     * @param veterinarian the instance of veterinarian to save.
      * @return the veterinarian instance
      */
     Veterinarian save(Veterinarian veterinarian);
@@ -21,7 +20,7 @@ public interface VeterinarianRepository {
     void delete(Veterinarian veterinarian);
 
     /**
-     * Return an veterinarian instance with specified name. Only one level dependencies are loaded (animals).
+     * Return an veterinarian instance with specified name.
      *
      * @param name the name of the veterinarian to return.
      * @return the veterinarian instance or null if not found
@@ -29,7 +28,7 @@ public interface VeterinarianRepository {
     Veterinarian findByName(String name);
 
     /**
-     * Return an veterinarian instance with specified id. Only one level dependencies are loaded (animals).
+     * Return an veterinarian instance with specified id.
      *
      * @param id the id of the veterinarian to return.
      * @return the veterinarian instance or null if not found
@@ -37,7 +36,7 @@ public interface VeterinarianRepository {
     Veterinarian findOne(Long id);
 
     /**
-     * Return all veterinarians in the database. Only one level dependencies are loaded (animals).
+     * Return all veterinarians in the database.
      *
      * @return The list of veterinarians.
      */

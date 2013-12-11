@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
@@ -34,9 +35,12 @@ public class OwnerRepositoryJpa implements OwnerRepository {
     @Override
     @Transactional(readOnly = true)
     public Owner findByName(String name) {
-        Query q = entityManager.createQuery("SELECT o FROM Owner o WHERE o.name = ?").setParameter(1, name);
-        List<Owner> l = q.getResultList();
-        return (l.size() == 1 ? l.get(0) : null);
+        try {
+            Query q = entityManager.createQuery("SELECT o FROM Owner o WHERE o.name = ?").setParameter(1, name);
+            return (Owner) q.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override

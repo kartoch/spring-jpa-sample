@@ -13,7 +13,7 @@ public class AnimalServiceImpl implements AnimalService {
     private AnimalRepository animalRepository;
 
     @Resource
-    private OwnerRepository ownerRepository;
+    private OwnerService ownerService;
 
 
     @Override
@@ -23,15 +23,22 @@ public class AnimalServiceImpl implements AnimalService {
             throw new NullPointerException("animal or owner name must be not null");
         }
 
-        Owner owner = ownerRepository.findByName(nameOwner);
+        Owner owner = ownerService.findByName(nameOwner);
 
         if (owner == null) {
-            throw new IllegalArgumentException("cannot found owner");
+            throw new IllegalStateException("cannot found owner");
         }
 
-        Animal animal = new Animal();
+        Animal animal = animalRepository.findByName(nameAnimal);
+
+        if (animal != null) {
+            throw new IllegalStateException("animal with the same name already present the database.");
+        }
+
+        animal = new Animal();
         animal.setName(nameAnimal);
-        owner.addAnimal(animal);
+        owner.getAnimals().add(animal);
+        animal.setOwner(owner);
         animalRepository.save(animal);
 
         return animal;
@@ -40,12 +47,21 @@ public class AnimalServiceImpl implements AnimalService {
     @Override
     @Transactional
     public void removeAnimal(String name) {
+        if (name == null) {
+            throw new NullPointerException("name must be not null");
+        }
+
         Animal animal = animalRepository.findByName(name);
 
         if (animal == null) {
             throw new IllegalArgumentException("animal not present");
         }
 
+        animal.getOwner().getAnimals().remove(animal);
+        animal.setOwner(null);
+        for (Veterinarian v : animal.getVeterinarians()) {
+            v.getAnimals().remove(animal);
+        }
         animalRepository.delete(animal);
     }
 
@@ -59,7 +75,7 @@ public class AnimalServiceImpl implements AnimalService {
     @Transactional(readOnly = true)
     public Animal findByName(String name) {
         if (name == null) {
-            throw new IllegalArgumentException("name must be not null");
+            throw new NullPointerException("name must be not null");
         }
 
         return animalRepository.findByName(name);

@@ -15,7 +15,7 @@ public interface VeterinarianService {
     Veterinarian createVeterinarian(String name);
 
     /**
-     * Delete an veterinarian from the database and remove all attached animals.
+     * Delete an veterinarian from the database.
      *
      * @param name name of the veterinarian to delete
      * @throws NullPointerException  if name is null
@@ -24,14 +24,14 @@ public interface VeterinarianService {
     void removeVeterinarian(String name);
 
     /**
-     * Return all veterinarians in the database. Only one level dependencies are loaded (animals).
+     * Return all veterinarians in the database.
      *
      * @return The list of veterinarians.
      */
     List<Veterinarian> findAll();
 
     /**
-     * Return a veterinarian instance with specified name. Only one level dependencies are loaded (animals).
+     * Return a veterinarian instance with specified name.
      *
      * @param name the name of the veterinarian to return.
      * @return the veterinarian instance or null if not found
@@ -46,8 +46,9 @@ public interface VeterinarianService {
      * @param veterinarianName the veterinarian name added to the animal
      * @return false if animal was already associated to veterinarian, false else
      * @throws NullPointerException if animal name or veterinarian name is null
+     * @throws IllegalStateException if animal or veterinarian is not found in the database.
      */
-    void addAnimalToVeterinarian(String animalName, String veterinarianName);
+    boolean addAnimalToVeterinarian(String animalName, String veterinarianName);
 
 
     /**
@@ -59,5 +60,5 @@ public interface VeterinarianService {
      * @throws NullPointerException  if animal name or veterinarian name is null
      * @throws IllegalStateException if animal or veterinarian is not found in the database
      */
-    void removeAnimalToVeterinarian(String animalName, String veterinarianName);
+    boolean removeAnimalToVeterinarian(String animalName, String veterinarianName);
 }

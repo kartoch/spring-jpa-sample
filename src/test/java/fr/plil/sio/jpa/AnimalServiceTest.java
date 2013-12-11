@@ -1,5 +1,6 @@
 package fr.plil.sio.jpa;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -24,62 +25,96 @@ public class AnimalServiceTest {
     @Resource
     private OwnerService ownerService;
 
+    @Resource
+    private VeterinarianService veterinarianService;
+
+    private Owner owner;
+
+    private Animal animal1, animal2;
+
+    private Veterinarian veterinarian1, veterinarian2;
+
+    @Before
+    public void before() {
+        owner = ownerService.createOwner("owner");
+        animal1 = animalService.createAnimal("animal1", "owner");
+        animal2 = animalService.createAnimal("animal2", "owner");
+        veterinarian1 = veterinarianService.createVeterinarian("veterinarian1");
+        veterinarian2 = veterinarianService.createVeterinarian("veterinarian2");
+        veterinarianService.addAnimalToVeterinarian("animal1", "veterinarian1");
+        veterinarianService.addAnimalToVeterinarian("animal1", "veterinarian2");
+        veterinarianService.addAnimalToVeterinarian("animal2", "veterinarian1");
+    }
+
     @Test
     public void testCreateAnimal() {
-        Owner owner = ownerService.createOwner("owner");
-        animalService.createAnimal("animal", "owner");
-        assertEquals(1, animalService.findAll().size());
-        Animal animal = animalService.findByName("animal");
-        assertSame(owner, animal.getOwner());
+        assertEquals("animal1", animal1.getName());
+        assertEquals(owner, animal1.getOwner());
+        assertEquals(2, owner.getAnimals().size());
+        assertEquals(animal1, owner.getAnimals().get(0));
     }
 
     @Test(expected = NullPointerException.class)
     public void testCreateAnimalFailsIfNameNull() {
-        ownerService.createOwner("owner");
-        Owner owner = ownerService.findByName("owner");
+        ownerService.findByName("owner");
         animalService.createAnimal(null, "owner");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = IllegalStateException.class)
     public void testCreateAnimalFailsIfOwnerNotFound() {
-        animalService.createAnimal("animal", "not-an-owner");
+        animalService.createAnimal("animal1", "not-an-owner");
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testCreateAnimalFailsIfAnimalAlreadyPresent() {
+        animalService.createAnimal("animal1", "owner");
     }
 
     @Test
     public void testRemoveAnimal() {
-        ownerService.createOwner("owner");
-        Owner owner = ownerService.findByName("owner");
-        Animal animal = animalService.createAnimal("animal", "owner");
-        animalService.removeAnimal("animal");
-        assertEquals(0, animalService.findAll().size());
-        assertNull(animalService.findByName("animal"));
+        animalService.removeAnimal("animal1");
+        assertEquals(1, animalService.findAll().size());
+        assertNull(animalService.findByName("animal1"));
+        assertEquals(1, owner.getAnimals().size());
+        assertEquals(1, ownerService.findByName("owner").getAnimals().size());
+        assertEquals(1, veterinarianService.findByName("veterinarian1").getAnimals().size());
+        assertEquals(0, veterinarianService.findByName("veterinarian2").getAnimals().size());
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testRemoveAnimalFailsIfNameNull() {
+        animalService.removeAnimal(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveAnimalFailsIfAnimalNotFound() {
-        animalService.removeAnimal("not-an-animal");
+        animalService.removeAnimal("not-an-animal1");
     }
 
     @Test
-    public void testGetAnimals() {
-        ownerService.createOwner("owner");
-        Owner owner = ownerService.findByName("owner");
-        animalService.createAnimal("animal1", "owner");
-        animalService.createAnimal("animal2", "owner");
+    public void testFindAll() {
         List<Animal> animals = animalService.findAll();
         assertEquals(2, animals.size());
-        for (Animal animal : animals) {
-            assertEquals(animal.getOwner(), owner);
-        }
     }
 
     @Test
     public void testFindAnimalByName() {
-        ownerService.createOwner("owner");
-        Owner owner = ownerService.findByName("owner");
-        animalService.createAnimal("animal1", "owner");
-        Animal animal = animalService.findByName("animal1");
-        assertNotNull(animal);
-        assertEquals(owner, animal.getOwner());
+        animal1 = animalService.findByName("animal1");
+        assertNotNull(animal1);
+        assertEquals(owner, animal1.getOwner());
+        assertEquals(2, animal1.getVeterinarians().size());
+        assertEquals(animal1, veterinarianService.findByName("veterinarian1").getAnimals().get(0));
+        assertEquals(animal1, veterinarianService.findByName("veterinarian2").getAnimals().get(0));
+        animal2 = animalService.findByName("animal2");
+        assertNotNull(animal2);
+        assertEquals(owner, animal2.getOwner());
+        assertEquals(1, animal2.getVeterinarians().size());
+        assertEquals(animal2, veterinarianService.findByName("veterinarian1").getAnimals().get(1));
+    }
+
+
+    @Test(expected = NullPointerException.class)
+    public void testFindAnimalByNameFailedWhenNameNull() {
+        animalService.findByName(null);
     }
 }

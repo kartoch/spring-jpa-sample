@@ -5,10 +5,9 @@ import java.util.List;
 public interface AnimalRepository {
 
     /**
-     * Save or update an animal instance in the database. If the animal is not present in the database (i.e. if not
-     * other animal in the database has the same name), set the id to an unique number and save it.
+     * Save an animal instance in the database.
      *
-     * @param animal the instance of animal to save or update.
+     * @param animal the instance of animal to save.
      * @return the animal instance
      */
     Animal save(Animal animal);
@@ -21,7 +20,7 @@ public interface AnimalRepository {
     void delete(Animal animal);
 
     /**
-     * Return an animal instance with specified name and all dependencies.
+     * Return an animal instance with specified name.
      *
      * @param name the name of the animal to return.
      * @return the animal instance or null if not found
@@ -29,7 +28,7 @@ public interface AnimalRepository {
     Animal findByName(String name);
 
     /**
-     * Return an animal instance with specified id and all dependencies.
+     * Return an animal instance with specified id.
      *
      * @param id the id of the animal to return.
      * @return the animal instance or null if not found
@@ -37,7 +36,7 @@ public interface AnimalRepository {
     Animal findOne(Long id);
 
     /**
-     * Return all animals in the database and all dependencies.
+     * Return all animals in the database.
      *
      * @return The list of animals.
      */

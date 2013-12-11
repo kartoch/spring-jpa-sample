@@ -25,7 +25,7 @@ public class Veterinarian {
     @Column(name = "NAME_C", unique = true, nullable = false)
     private String name;
 
-    @ManyToMany(cascade = CascadeType.REMOVE)
+    @ManyToMany
     private List<Animal> animals = new LinkedList<Animal>();
 
     public String getName() {
@@ -38,51 +38,5 @@ public class Veterinarian {
 
     public List<Animal> getAnimals() {
         return animals;
-    }
-
-    /**
-     * Add an animal to the veterinarian.
-     *
-     * @param animal the animal to add to the veterinarian
-     * @return false if animal was already present, true else
-     * @throws NullPointerException if parameter is null
-     */
-    public void addAnimal(Animal animal) {
-        if (animal == null) {
-            throw new NullPointerException("animal must be not null");
-        }
-        animals.add(animal);
-        animal.getVeterinarians().add(this);
-    }
-
-    /**
-     * Remove an animal from the veterinarian.
-     *
-     * @param animal the animal to remove from the veterinarian
-     * @throws NullPointerException if parameter is null
-     */
-    public void removeAnimal(Animal animal) {
-        if (animal == null) {
-            throw new NullPointerException("animal must be not null");
-        }
-        animals.remove(animal);
-        animal.getVeterinarians().remove(this);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Veterinarian that = (Veterinarian) o;
-
-        if (!name.equals(that.name)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
     }
 }

@@ -1,5 +1,6 @@
 package fr.plil.sio.jpa;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -8,7 +9,6 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -19,17 +19,31 @@ import static org.junit.Assert.*;
 public class OwnerServiceTest {
 
     @Resource
-    public OwnerService ownerService;
+    private OwnerService ownerService;
+
+    @Resource
+    private AnimalService animalService;
+
+    private Owner owner;
+
+    private Animal animal1, animal2;
+
+    @Before
+    public void before() {
+        owner = ownerService.createOwner("owner");
+        animal1 = animalService.createAnimal("animal1", "owner");
+        animal2 = animalService.createAnimal("animal2", "owner");
+    }
 
     @Test
     public void testCreateOwner() {
-        Owner owner = ownerService.createOwner("owner");
         assertNotNull(owner);
         assertEquals("owner", owner.getName());
         assertEquals(1, ownerService.findAll().size());
+        assertEquals(2, owner.getAnimals().size());
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testCreateOwnerFailsIfOwnerNull() {
         ownerService.createOwner(null);
     }
@@ -37,39 +51,42 @@ public class OwnerServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testCreateOwnerFailsIfOwnerPresent() {
         ownerService.createOwner("owner");
-        ownerService.createOwner("owner");
     }
 
     @Test
     public void testRemoveOwner() {
-        Owner owner = ownerService.createOwner("owner");
         ownerService.removeOwner("owner");
         assertEquals(0, ownerService.findAll().size());
+        assertEquals(0, animalService.findAll().size());
+        assertNull(animalService.findByName("animal1"));
+        assertNull(animalService.findByName("animal2"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveOwnerFailsIfOwnerNotPresent() {
-        ownerService.removeOwner("owner");
+        ownerService.removeOwner("owner-dummy");
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testRemoveOwnerFailsIfOwnerNull() {
+        ownerService.removeOwner(null);
     }
 
     @Test
     public void testfindAll() {
-        ownerService.createOwner("owner1");
         ownerService.createOwner("owner2");
-        List<Owner> owners = ownerService.findAll();
-        assertEquals(2, owners.size());
+        assertEquals(2, ownerService.findAll().size());
     }
 
     @Test
     public void testFindByName() {
-        ownerService.createOwner("owner1");
-        Owner owner1 = ownerService.findByName("owner1");
+        Owner owner1 = ownerService.findByName("owner");
         assertNotNull(owner1);
         Owner owner2 = ownerService.findByName("dummy");
         assertNull(owner2);
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test(expected = NullPointerException.class)
     public void testFindByNameFailsIfNameNull() {
         ownerService.findByName(null);
     }

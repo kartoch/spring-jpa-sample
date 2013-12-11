@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.util.List;
@@ -34,8 +35,12 @@ public class VeterinarianRepositoryJpa implements VeterinarianRepository {
     @Override
     @Transactional(readOnly = true)
     public Veterinarian findByName(String name) {
-        Query q = entityManager.createQuery("SELECT v FROM Veterinarian v WHERE o.name = ?").setParameter(1, name);
-        return (Veterinarian) q.getSingleResult();
+        try {
+            Query q = entityManager.createQuery("SELECT v FROM Veterinarian v WHERE v.name = ?").setParameter(1, name);
+            return (Veterinarian) q.getSingleResult();
+        } catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override
@@ -47,7 +52,7 @@ public class VeterinarianRepositoryJpa implements VeterinarianRepository {
     @Override
     @Transactional(readOnly = true)
     public List<Veterinarian> findAll() {
-        Query q = entityManager.createQuery("SELECT v FROM Veterinarian");
+        Query q = entityManager.createQuery("SELECT v FROM Veterinarian v");
         return q.getResultList();
     }
 }

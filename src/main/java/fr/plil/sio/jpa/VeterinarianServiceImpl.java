@@ -23,7 +23,7 @@ public class VeterinarianServiceImpl implements VeterinarianService {
     @Transactional
     public Veterinarian createVeterinarian(String name) {
         if (name == null) {
-            throw new IllegalArgumentException("name must be not null");
+            throw new NullPointerException("name must be not null");
         }
 
         if (veterinarianRepository.findByName(name) != null) {
@@ -32,6 +32,7 @@ public class VeterinarianServiceImpl implements VeterinarianService {
 
         Veterinarian veterinarian = new Veterinarian();
         veterinarian.setName(name);
+        veterinarianRepository.save(veterinarian);
 
         return veterinarian;
     }
@@ -39,6 +40,10 @@ public class VeterinarianServiceImpl implements VeterinarianService {
     @Override
     @Transactional
     public void removeVeterinarian(String name) {
+        if (name == null) {
+            throw new NullPointerException("name must be not null");
+        }
+
         Veterinarian veterinarian = veterinarianRepository.findByName(name);
 
         if (veterinarian == null) {
@@ -58,7 +63,7 @@ public class VeterinarianServiceImpl implements VeterinarianService {
     @Transactional(readOnly = true)
     public Veterinarian findByName(String name) {
         if (name == null) {
-            throw new IllegalArgumentException("name must be not null");
+            throw new NullPointerException("name must be not null");
         }
 
         return veterinarianRepository.findByName(name);
@@ -66,7 +71,15 @@ public class VeterinarianServiceImpl implements VeterinarianService {
 
     @Override
     @Transactional
-    public void addAnimalToVeterinarian(String animalName, String veterinarianName) {
+    public boolean addAnimalToVeterinarian(String animalName, String veterinarianName) {
+        if (animalName == null) {
+            throw new NullPointerException("animal name must be not null");
+        }
+
+        if (veterinarianName == null) {
+            throw new NullPointerException("veterinarian name must be not null");
+        }
+
         Veterinarian veterinarian = findByName(veterinarianName);
         if (veterinarian == null) {
             throw new IllegalArgumentException("veterinarian not present");
@@ -77,12 +90,19 @@ public class VeterinarianServiceImpl implements VeterinarianService {
             throw new IllegalArgumentException("animal not present");
         }
 
-        veterinarian.addAnimal(animal);
+        if (animal.getVeterinarians().contains(veterinarian) || veterinarian.getAnimals().contains(animal)) {
+            return false;
+        }
+
+        veterinarian.getAnimals().add(animal);
+        animal.getVeterinarians().add(veterinarian);
+
+        return true;
     }
 
     @Override
     @Transactional
-    public void removeAnimalToVeterinarian(String animalName, String veterinarianName) {
+    public boolean removeAnimalToVeterinarian(String animalName, String veterinarianName) {
         Veterinarian veterinarian = findByName(veterinarianName);
         if (veterinarian == null) {
             throw new IllegalArgumentException("veterinarian not present");
@@ -93,6 +113,14 @@ public class VeterinarianServiceImpl implements VeterinarianService {
             throw new IllegalArgumentException("animal not present");
         }
 
-        veterinarian.removeAnimal(animal);
+        if (!animal.getVeterinarians().contains(veterinarian) || !veterinarian.getAnimals().contains(animal)) {
+            return false;
+        }
+
+        veterinarian.getAnimals().remove(animal);
+        animal.getVeterinarians().remove(veterinarian);
+
+
+        return true;
     }
 }

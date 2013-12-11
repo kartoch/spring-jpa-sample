@@ -5,10 +5,9 @@ import java.util.List;
 public interface OwnerRepository {
 
     /**
-     * Save or update an owner instance in the database. If the owner is not present in the database (i.e. if not
-     * other owner in the database has the same name), set the id to an unique number and save it.
+     * Save an owner instance in the database.
      *
-     * @param owner the instance of owner to save or update.
+     * @param owner the instance of owner to save.
      * @return the owner instance
      */
     Owner save(Owner owner);
@@ -21,7 +20,7 @@ public interface OwnerRepository {
     void delete(Owner owner);
 
     /**
-     * Return an owner instance with specified name. Only one level dependencies are loaded (animals).
+     * Return an owner instance with specified name.
      *
      * @param name the name of the owner to return.
      * @return the owner instance or null if not found
@@ -29,7 +28,7 @@ public interface OwnerRepository {
     Owner findByName(String name);
 
     /**
-     * Return an owner instance with specified id. Only one level dependencies are loaded (animals).
+     * Return an owner instance with specified id.
      *
      * @param id the id of the owner to return.
      * @return the owner instance or null if not found
@@ -37,7 +36,7 @@ public interface OwnerRepository {
     Owner findOne(Long id);
 
     /**
-     * Return all owners in the database. Only one level dependencies are loaded (animals).
+     * Return all owners in the database.
      *
      * @return The list of owners.
      */

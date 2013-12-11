@@ -6,13 +6,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * An animal is unique by name. An animal must have an owner (at the persistence level).
- * An animal may be connected to zero, one or several veterinarians.
+ * At the persistence level:
+ * - an animal is unique by name.
+ * - an animal must have an owner.
+ * - an animal may be connected to zero, one or several veterinarians.
  */
 
 @Entity
 @Table(name = "ANIMAL_T")
-public class Animal implements Serializable, Comparable<Animal> {
+public class Animal implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,8 +28,16 @@ public class Animal implements Serializable, Comparable<Animal> {
     @JoinColumn(name = "OWNER_ID")
     private Owner owner;
 
-    @ManyToMany(mappedBy = "animals", cascade = CascadeType.REMOVE)
+    @ManyToMany(mappedBy = "animals")
     private List<Veterinarian> veterinarians = new LinkedList<Veterinarian>();
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -49,24 +59,7 @@ public class Animal implements Serializable, Comparable<Animal> {
         return veterinarians;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Animal animal = (Animal) o;
-
-        if (!name.equals(animal.name)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        return name.hashCode();
-    }
-
-    public int compareTo(Animal animal) {
-        return this.name.compareTo(animal.getName());
+    public void setVeterinarians(List<Veterinarian> veterinarians) {
+        this.veterinarians = veterinarians;
     }
 }

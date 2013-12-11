@@ -26,14 +26,14 @@ public interface AnimalService {
     void removeAnimal(String name);
 
     /**
-     * Return all animals in the database. Only one level dependencies are loaded (owner and veterinarians).
+     * Return all animals in the database with all dependencies resolved.
      *
      * @return The list of animals.
      */
     List<Animal> findAll();
 
     /**
-     * Return an animal instance with specified name. Only one level dependencies are loaded (owner and veterinarians).
+     * Return an animal instance with specified name with all dependencies resolved.
      *
      * @param name the name of the animal to return.
      * @return the animal instance or null if not found
