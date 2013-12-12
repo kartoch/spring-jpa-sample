@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.LinkedList;
 import java.util.List;
 
 @Service("ownerService")
@@ -45,15 +44,6 @@ public class OwnerServiceImpl implements OwnerService {
 
         if (owner == null) {
             throw new IllegalArgumentException("owner not present");
-        }
-
-        List<String> animalNames = new LinkedList<String>();
-        for (Animal a : owner.getAnimals()) {
-            animalNames.add(a.getName());
-        }
-
-        for (String s : animalNames) {
-            animalService.removeAnimal(s);
         }
 
         ownerRepository.delete(owner);
