@@ -21,7 +21,7 @@ public class Owner implements Serializable {
     @Column(name = "NAME_C", unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "owner", cascade = {CascadeType.REMOVE})
+    @OneToMany(mappedBy = "owner", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Animal> animals = new LinkedList<Animal>();
 
     public long getId() {

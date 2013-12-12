@@ -15,7 +15,6 @@ public class AnimalServiceImpl implements AnimalService {
     @Resource
     private OwnerService ownerService;
 
-
     @Override
     @Transactional
     public Animal createAnimal(String nameAnimal, String nameOwner) {
@@ -37,9 +36,8 @@ public class AnimalServiceImpl implements AnimalService {
 
         animal = new Animal();
         animal.setName(nameAnimal);
-        owner.getAnimals().add(animal);
         animal.setOwner(owner);
-        animalRepository.save(animal);
+        owner.getAnimals().add(animal);
 
         return animal;
     }
