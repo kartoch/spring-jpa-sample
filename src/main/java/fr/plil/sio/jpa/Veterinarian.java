@@ -28,6 +28,10 @@ public class Veterinarian {
     @ManyToMany
     private List<Animal> animals = new LinkedList<Animal>();
 
+    public Long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

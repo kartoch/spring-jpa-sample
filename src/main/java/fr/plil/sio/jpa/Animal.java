@@ -35,10 +35,6 @@ public class Animal implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
     }
@@ -57,9 +53,5 @@ public class Animal implements Serializable {
 
     public List<Veterinarian> getVeterinarians() {
         return veterinarians;
-    }
-
-    public void setVeterinarians(List<Veterinarian> veterinarians) {
-        this.veterinarians = veterinarians;
     }
 }
