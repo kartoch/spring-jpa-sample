@@ -120,7 +120,6 @@ public class VeterinarianServiceImpl implements VeterinarianService {
         veterinarian.getAnimals().remove(animal);
         animal.getVeterinarians().remove(veterinarian);
 
-
         return true;
     }
 }
