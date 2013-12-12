@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/jpa-example.xml"})
+@ContextConfiguration(classes = {TestConfiguration.class})
 @TransactionConfiguration
 @Transactional
 public class VeterinarianServiceTest {

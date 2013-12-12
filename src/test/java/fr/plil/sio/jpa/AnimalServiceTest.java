@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"/jpa-example.xml"})
+@ContextConfiguration(classes = {TestConfiguration.class})
 @TransactionConfiguration
 @Transactional
 public class AnimalServiceTest {
