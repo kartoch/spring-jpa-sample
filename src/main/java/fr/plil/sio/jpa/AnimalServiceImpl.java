@@ -58,10 +58,11 @@ public class AnimalServiceImpl implements AnimalService {
         }
 
         animal.getOwner().getAnimals().remove(animal);
-        animal.setOwner(null);
+
         for (Veterinarian v : animal.getVeterinarians()) {
             v.getAnimals().remove(animal);
         }
+
         animalRepository.delete(animal);
     }
 
