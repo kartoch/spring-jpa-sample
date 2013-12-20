@@ -44,13 +44,13 @@ public class AnimalRepositoryJpa implements AnimalRepository {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public Animal findOne(Long id) {
         return entityManager.find(Animal.class, id);
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Animal> findAll() {
         Query q = entityManager.createQuery("SELECT a FROM Animal a");
         return q.getResultList();
