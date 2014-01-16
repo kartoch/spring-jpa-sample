@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "VETERINARIAN_T")
-public class Veterinarian {
+public class Veterinarian implements Serializable {
 
     private final static Logger logger = LoggerFactory.getLogger(Veterinarian.class);
 
