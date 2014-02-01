@@ -17,7 +17,7 @@ import javax.sql.DataSource;
 @EnableTransactionManagement
 @ComponentScan(basePackages = "fr.plil.sio.jpa")
 @EnableJpaRepositories("fr.plil.sio.jpa")
-public class TestConfiguration {
+public class JpaAppConfiguration {
 
     @Bean
     public DataSource dataSource() {

@@ -14,7 +14,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {TestConfiguration.class})
+@ContextConfiguration(classes = {JpaAppConfiguration.class})
 @TransactionConfiguration
 @Transactional
 public class AnimalServiceTest {
