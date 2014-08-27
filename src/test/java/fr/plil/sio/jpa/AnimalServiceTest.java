@@ -39,8 +39,8 @@ public class AnimalServiceTest {
         owner = ownerService.create("owner");
         animal1 = animalService.create("animal1", "owner");
         animal2 = animalService.create("animal2", "owner");
-        veterinarian1 = veterinarianService.createVeterinarian("veterinarian1");
-        veterinarian2 = veterinarianService.createVeterinarian("veterinarian2");
+        veterinarian1 = veterinarianService.create("veterinarian1");
+        veterinarian2 = veterinarianService.create("veterinarian2");
         veterinarianService.addAnimal("animal1", "veterinarian1");
         veterinarianService.addAnimal("animal1", "veterinarian2");
         veterinarianService.addAnimal("animal2", "veterinarian1");

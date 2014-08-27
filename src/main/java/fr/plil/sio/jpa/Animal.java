@@ -1,6 +1,5 @@
 package fr.plil.sio.jpa;
 
-import javax.persistence.*;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,23 +11,14 @@ import java.util.List;
  * - an animal may be connected to zero, one or several veterinarians.
  */
 
-@Entity
-@Table(name = "ANIMAL_T")
 public class Animal implements Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ANIMAL_ID")
     private Long id;
 
-    @Column(name = "NAME_C", unique = true, nullable = false)
     private String name;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "OWNER_ID")
     private Owner owner;
 
-    @ManyToMany(mappedBy = "animals")
     private List<Veterinarian> veterinarians = new LinkedList<Veterinarian>();
 
     public Long getId() {

@@ -1,67 +1,37 @@
 package fr.plil.sio.jpa;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-@Service("ownerService")
 public class OwnerServiceImpl implements OwnerService {
 
-    @Resource
-    private OwnerRepository ownerRepository;
-
-    @Resource
-    private AnimalService animalService;
+    private final static Logger logger = LoggerFactory.getLogger(AnimalServiceImpl.class);
 
     @Override
-    @Transactional
     public Owner create(String name) {
-        if (name == null) {
-            throw new NullPointerException("name must be not null");
-        }
-
-        if (ownerRepository.findByName(name) != null) {
-            throw new IllegalArgumentException("owner already present");
-        }
-
-        Owner owner = new Owner();
-        owner.setName(name);
-        ownerRepository.save(owner);
-
-        return owner;
+        logger.debug("to complete");
+        return null;
     }
 
     @Override
-    @Transactional
     public void remove(String name) {
-        if (name == null) {
-            throw new NullPointerException("name must be not null");
-        }
-
-        Owner owner = ownerRepository.findByName(name);
-
-        if (owner == null) {
-            throw new IllegalArgumentException("owner not present");
-        }
-
-        ownerRepository.delete(owner);
+        logger.debug("to complete");
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Owner> findAll() {
-        return ownerRepository.findAll();
+        logger.debug("to complete");
+        return null;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Owner findByName(String name) {
-        if (name == null) {
-            throw new NullPointerException("name must be not null");
-        }
-
-        return ownerRepository.findByName(name);
+        logger.debug("to complete");
+        return null;
     }
 }
