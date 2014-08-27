@@ -35,14 +35,14 @@ public class VeterinarianServiceTest {
 
     @Before
     public void before() {
-        owner = ownerService.createOwner("owner");
-        animal1 = animalService.createAnimal("animal1", "owner");
-        animal2 = animalService.createAnimal("animal2", "owner");
+        owner = ownerService.create("owner");
+        animal1 = animalService.create("animal1", "owner");
+        animal2 = animalService.create("animal2", "owner");
         veterinarian1 = veterinarianService.createVeterinarian("veterinarian1");
         veterinarian2 = veterinarianService.createVeterinarian("veterinarian2");
-        veterinarianService.addAnimalToVeterinarian("animal1", "veterinarian1");
-        veterinarianService.addAnimalToVeterinarian("animal1", "veterinarian2");
-        veterinarianService.addAnimalToVeterinarian("animal2", "veterinarian1");
+        veterinarianService.addAnimal("animal1", "veterinarian1");
+        veterinarianService.addAnimal("animal1", "veterinarian2");
+        veterinarianService.addAnimal("animal2", "veterinarian1");
     }
 
     @Test
@@ -104,44 +104,44 @@ public class VeterinarianServiceTest {
         assertEquals(1, veterinarian2.getAnimals().size());
         assertEquals(2, animal1.getVeterinarians().size());
         assertEquals(1, animal2.getVeterinarians().size());
-        assertFalse(veterinarianService.addAnimalToVeterinarian("animal1", "veterinarian1"));
-        Animal animal3 = animalService.createAnimal("animal3", "owner");
-        assertTrue(veterinarianService.addAnimalToVeterinarian("animal3", "veterinarian1"));
+        assertFalse(veterinarianService.addAnimal("animal1", "veterinarian1"));
+        Animal animal3 = animalService.create("animal3", "owner");
+        assertTrue(veterinarianService.addAnimal("animal3", "veterinarian1"));
     }
 
     @Test(expected = NullPointerException.class)
     public void testAddAnimalToVeterinarianFailedIfAnimalNameNull() {
-        veterinarianService.addAnimalToVeterinarian(null, "veterinarian1");
+        veterinarianService.addAnimal(null, "veterinarian1");
     }
 
     @Test(expected = NullPointerException.class)
     public void testAddAnimalToVeterinarianFailedIfVeterinarianNameNull() {
-        veterinarianService.addAnimalToVeterinarian("animal1", null);
+        veterinarianService.addAnimal("animal1", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddAnimalToVeterinarianFailedIfAnimalNotPresent() {
-        veterinarianService.addAnimalToVeterinarian("animal-dummy", "veterinarian1");
+        veterinarianService.addAnimal("animal-dummy", "veterinarian1");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testAddAnimalToVeterinarianFailedIfVeterinarianNotPresent() {
-        veterinarianService.addAnimalToVeterinarian("animal1", "veterinarian-dummy");
+        veterinarianService.addAnimal("animal1", "veterinarian-dummy");
     }
 
     @Test
     public void testRemoveAnimalToVeterinarian() {
-        assertTrue(veterinarianService.removeAnimalToVeterinarian("animal1", "veterinarian1"));
+        assertTrue(veterinarianService.removeAnimal("animal1", "veterinarian1"));
         assertEquals(1, veterinarian1.getAnimals().size());
         assertEquals(1, veterinarian2.getAnimals().size());
         assertEquals(1, animal1.getVeterinarians().size());
         assertEquals(1, animal2.getVeterinarians().size());
-        assertTrue(veterinarianService.removeAnimalToVeterinarian("animal1", "veterinarian2"));
+        assertTrue(veterinarianService.removeAnimal("animal1", "veterinarian2"));
         assertEquals(1, veterinarian1.getAnimals().size());
         assertEquals(0, veterinarian2.getAnimals().size());
         assertEquals(0, animal1.getVeterinarians().size());
         assertEquals(1, animal2.getVeterinarians().size());
-        assertFalse(veterinarianService.removeAnimalToVeterinarian("animal1", "veterinarian2"));
+        assertFalse(veterinarianService.removeAnimal("animal1", "veterinarian2"));
         assertEquals(1, veterinarian1.getAnimals().size());
         assertEquals(0, veterinarian2.getAnimals().size());
         assertEquals(0, animal1.getVeterinarians().size());
@@ -150,21 +150,21 @@ public class VeterinarianServiceTest {
 
     @Test(expected = NullPointerException.class)
     public void testRemoveAnimalToVeterinarianFailedIfAnimalNameNull() {
-        veterinarianService.removeAnimalToVeterinarian(null, "veterinarian1");
+        veterinarianService.removeAnimal(null, "veterinarian1");
     }
 
     @Test(expected = NullPointerException.class)
     public void testRemoveAnimalToVeterinarianFailedIfVeterinarianNameNull() {
-        veterinarianService.removeAnimalToVeterinarian("animal1", null);
+        veterinarianService.removeAnimal("animal1", null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveAnimalToVeterinarianFailedIfAnimalNotPresent() {
-        veterinarianService.removeAnimalToVeterinarian("animal-dummy", "veterinarian1");
+        veterinarianService.removeAnimal("animal-dummy", "veterinarian1");
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveAnimalToVeterinarianFailedIfVeterinarianNotPresent() {
-        veterinarianService.removeAnimalToVeterinarian("animal1", "veterinarian-dummy");
+        veterinarianService.removeAnimal("animal1", "veterinarian-dummy");
     }
 }

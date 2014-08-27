@@ -36,14 +36,14 @@ public class AnimalServiceTest {
 
     @Before
     public void before() {
-        owner = ownerService.createOwner("owner");
-        animal1 = animalService.createAnimal("animal1", "owner");
-        animal2 = animalService.createAnimal("animal2", "owner");
+        owner = ownerService.create("owner");
+        animal1 = animalService.create("animal1", "owner");
+        animal2 = animalService.create("animal2", "owner");
         veterinarian1 = veterinarianService.createVeterinarian("veterinarian1");
         veterinarian2 = veterinarianService.createVeterinarian("veterinarian2");
-        veterinarianService.addAnimalToVeterinarian("animal1", "veterinarian1");
-        veterinarianService.addAnimalToVeterinarian("animal1", "veterinarian2");
-        veterinarianService.addAnimalToVeterinarian("animal2", "veterinarian1");
+        veterinarianService.addAnimal("animal1", "veterinarian1");
+        veterinarianService.addAnimal("animal1", "veterinarian2");
+        veterinarianService.addAnimal("animal2", "veterinarian1");
     }
 
     @Test
@@ -57,22 +57,22 @@ public class AnimalServiceTest {
     @Test(expected = NullPointerException.class)
     public void testCreateAnimalFailsIfNameNull() {
         ownerService.findByName("owner");
-        animalService.createAnimal(null, "owner");
+        animalService.create(null, "owner");
     }
 
     @Test(expected = IllegalStateException.class)
     public void testCreateAnimalFailsIfOwnerNotFound() {
-        animalService.createAnimal("animal1", "not-an-owner");
+        animalService.create("animal1", "not-an-owner");
     }
 
     @Test(expected = IllegalStateException.class)
     public void testCreateAnimalFailsIfAnimalAlreadyPresent() {
-        animalService.createAnimal("animal1", "owner");
+        animalService.create("animal1", "owner");
     }
 
     @Test
     public void testRemoveAnimal() {
-        animalService.removeAnimal("animal1");
+        animalService.remove("animal1");
         assertEquals(1, animalService.findAll().size());
         assertNull(animalService.findByName("animal1"));
         assertEquals(1, owner.getAnimals().size());
@@ -83,12 +83,12 @@ public class AnimalServiceTest {
 
     @Test(expected = NullPointerException.class)
     public void testRemoveAnimalFailsIfNameNull() {
-        animalService.removeAnimal(null);
+        animalService.remove(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveAnimalFailsIfAnimalNotFound() {
-        animalService.removeAnimal("not-an-animal1");
+        animalService.remove("not-an-animal1");
     }
 
     @Test

@@ -30,9 +30,9 @@ public class OwnerServiceTest {
 
     @Before
     public void before() {
-        owner = ownerService.createOwner("owner");
-        animal1 = animalService.createAnimal("animal1", "owner");
-        animal2 = animalService.createAnimal("animal2", "owner");
+        owner = ownerService.create("owner");
+        animal1 = animalService.create("animal1", "owner");
+        animal2 = animalService.create("animal2", "owner");
     }
 
     @Test
@@ -45,17 +45,17 @@ public class OwnerServiceTest {
 
     @Test(expected = NullPointerException.class)
     public void testCreateOwnerFailsIfOwnerNull() {
-        ownerService.createOwner(null);
+        ownerService.create(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testCreateOwnerFailsIfOwnerPresent() {
-        ownerService.createOwner("owner");
+        ownerService.create("owner");
     }
 
     @Test
     public void testRemoveOwner() {
-        ownerService.removeOwner("owner");
+        ownerService.remove("owner");
         assertEquals(0, ownerService.findAll().size());
         assertEquals(0, animalService.findAll().size());
         assertNull(animalService.findByName("animal1"));
@@ -64,17 +64,17 @@ public class OwnerServiceTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testRemoveOwnerFailsIfOwnerNotPresent() {
-        ownerService.removeOwner("owner-dummy");
+        ownerService.remove("owner-dummy");
     }
 
     @Test(expected = NullPointerException.class)
     public void testRemoveOwnerFailsIfOwnerNull() {
-        ownerService.removeOwner(null);
+        ownerService.remove(null);
     }
 
     @Test
     public void testfindAll() {
-        ownerService.createOwner("owner2");
+        ownerService.create("owner2");
         assertEquals(2, ownerService.findAll().size());
     }
 
