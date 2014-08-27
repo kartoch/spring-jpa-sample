@@ -54,4 +54,21 @@ public class Animal implements Serializable {
     public List<Veterinarian> getVeterinarians() {
         return veterinarians;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Animal animal = (Animal) o;
+
+        if (!name.equals(animal.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

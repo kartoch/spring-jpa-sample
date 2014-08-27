@@ -71,7 +71,7 @@ public class VeterinarianServiceImpl implements VeterinarianService {
 
     @Override
     @Transactional
-    public boolean addAnimalToVeterinarian(String animalName, String veterinarianName) {
+    public boolean addAnimal(String animalName, String veterinarianName) {
         if (animalName == null) {
             throw new NullPointerException("animal name must be not null");
         }
@@ -102,7 +102,7 @@ public class VeterinarianServiceImpl implements VeterinarianService {
 
     @Override
     @Transactional
-    public boolean removeAnimalToVeterinarian(String animalName, String veterinarianName) {
+    public boolean removeAnimal(String animalName, String veterinarianName) {
         Veterinarian veterinarian = findByName(veterinarianName);
         if (veterinarian == null) {
             throw new IllegalArgumentException("veterinarian not present");

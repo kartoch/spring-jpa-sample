@@ -44,4 +44,49 @@ public class Veterinarian implements Serializable {
     public List<Animal> getAnimals() {
         return animals;
     }
+    /**
+     * Add an animal to the veterinarian.
+     *
+     * @param animal the animal to add to the veterinarian
+     * @throws IllegalStateException if animal already present
+     * @throws NullPointerException  if parameter is null
+     */
+    public void addAnimal(Animal animal) {
+        if (animal == null) {
+            throw new NullPointerException("animal cannot be null");
+        }
+        if (animals.contains(animal)) {
+            throw new IllegalStateException("animal already present");
+        }
+        animals.add(animal);
+        animal.getVeterinarians().add(this);
+    }
+
+    /**
+     * Remove an animal from the veterinarian.
+     *
+     * @param animal the animal to remove from the veterinarian
+     * @throws IllegalStateException if animal not present in veterinarian
+     * @throws NullPointerException  if parameter is null
+     */
+    public void removeAnimal(Animal animal) {
+        logger.error("to complete");
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Veterinarian veterinarian = (Veterinarian) o;
+
+        if (!name.equals(veterinarian.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
 }

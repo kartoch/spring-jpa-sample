@@ -17,7 +17,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     @Transactional
-    public Animal createAnimal(String nameAnimal, String nameOwner) {
+    public Animal create(String nameAnimal, String nameOwner) {
         if (nameAnimal == null || nameOwner == null) {
             throw new NullPointerException("animal or owner name must be not null");
         }
@@ -44,7 +44,7 @@ public class AnimalServiceImpl implements AnimalService {
 
     @Override
     @Transactional
-    public void removeAnimal(String name) {
+    public void remove(String name) {
         if (name == null) {
             throw new NullPointerException("name must be not null");
         }

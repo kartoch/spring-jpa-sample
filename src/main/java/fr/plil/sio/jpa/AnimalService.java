@@ -14,7 +14,7 @@ public interface AnimalService {
      * @throws IllegalStateException if owner does not exist in the database or if an animal with the same name exist
      *                               in the database
      */
-    Animal createAnimal(String nameAnimal, String nameOwner);
+    Animal create(String nameAnimal, String nameOwner);
 
     /**
      * Delete an animal from the database and remove it from the owner and the veterinarians.
@@ -23,7 +23,7 @@ public interface AnimalService {
      * @throws NullPointerException  if name is null
      * @throws IllegalStateException if animal does not exist in the database.
      */
-    void removeAnimal(String name);
+    void remove(String name);
 
     /**
      * Return all animals in the database with all dependencies resolved.

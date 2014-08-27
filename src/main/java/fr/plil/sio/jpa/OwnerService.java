@@ -12,7 +12,7 @@ public interface OwnerService {
      * @throws NullPointerException  if name is null
      * @throws IllegalStateException if an owner with the same name exist in the database
      */
-    Owner createOwner(String name);
+    Owner create(String name);
 
     /**
      * Delete an owner from the database and remove all attached animals.
@@ -21,7 +21,7 @@ public interface OwnerService {
      * @throws NullPointerException  if name is null
      * @throws IllegalStateException if owner does not exist in the database.
      */
-    void removeOwner(String name);
+    void remove(String name);
 
     /**
      * Return all owners in the database. Only one level dependencies are loaded (animals).

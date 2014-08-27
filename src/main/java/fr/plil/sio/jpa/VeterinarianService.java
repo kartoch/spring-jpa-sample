@@ -48,7 +48,7 @@ public interface VeterinarianService {
      * @throws NullPointerException if animal name or veterinarian name is null
      * @throws IllegalStateException if animal or veterinarian is not found in the database.
      */
-    boolean addAnimalToVeterinarian(String animalName, String veterinarianName);
+    boolean addAnimal(String animalName, String veterinarianName);
 
 
     /**
@@ -60,5 +60,5 @@ public interface VeterinarianService {
      * @throws NullPointerException  if animal name or veterinarian name is null
      * @throws IllegalStateException if animal or veterinarian is not found in the database
      */
-    boolean removeAnimalToVeterinarian(String animalName, String veterinarianName);
+    boolean removeAnimal(String animalName, String veterinarianName);
 }

@@ -17,7 +17,7 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     @Transactional
-    public Owner createOwner(String name) {
+    public Owner create(String name) {
         if (name == null) {
             throw new NullPointerException("name must be not null");
         }
@@ -35,7 +35,7 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     @Transactional
-    public void removeOwner(String name) {
+    public void remove(String name) {
         if (name == null) {
             throw new NullPointerException("name must be not null");
         }
