@@ -10,13 +10,14 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import javax.sql.DataSource;
 
 @Configuration
 @EnableTransactionManagement
 @ComponentScan(basePackages = "fr.plil.sio.jpa")
 @EnableJpaRepositories("fr.plil.sio.jpa")
-public class JpaAppConfiguration {
+public class JpaSpringInitializerApplication {
 
     @Bean
     public DataSource dataSource() {

@@ -12,26 +12,26 @@ public interface VeterinarianService {
      * @throws NullPointerException  if name is null
      * @throws IllegalStateException if an veterinarian with the same name exist in the database
      */
-    Veterinarian create(String name);
+    Veterinarian createVeterinarian(String name);
 
     /**
-     * Delete an veterinarian from the database and remove all attached animals.
+     * Delete an veterinarian from the database.
      *
      * @param name name of the veterinarian to delete
      * @throws NullPointerException  if name is null
      * @throws IllegalStateException if veterinarian does not exist in the database.
      */
-    void remove(String name);
+    void removeVeterinarian(String name);
 
     /**
-     * Return all veterinarians in the database. Only one level dependencies are loaded (animals).
+     * Return all veterinarians in the database.
      *
      * @return The list of veterinarians.
      */
     List<Veterinarian> findAll();
 
     /**
-     * Return a veterinarian instance with specified name. Only one level dependencies are loaded (animals).
+     * Return a veterinarian instance with specified name.
      *
      * @param name the name of the veterinarian to return.
      * @return the veterinarian instance or null if not found
@@ -42,23 +42,23 @@ public interface VeterinarianService {
     /**
      * Add an animal to a veterinarian in the database.
      *
+     * @param animalName       the animal name to add
      * @param veterinarianName the veterinarian name added to the animal
-     * @param animalName       the animal name to add*
      * @return false if animal was already associated to veterinarian, false else
      * @throws NullPointerException if animal name or veterinarian name is null
      * @throws IllegalStateException if animal or veterinarian is not found in the database.
      */
-    boolean addAnimal(String veterinarianName, String animalName);
+    boolean addAnimal(String animalName, String veterinarianName);
 
 
     /**
      * Remove an animal to a veterinarian in the database.
      *
+     * @param animalName       the animal name to remove
      * @param veterinarianName the veterinarian name removed from the animal
-     * @param animalName       the animal name to remove*
      * @return false if animal was not associated to veterinarian, false else
      * @throws NullPointerException  if animal name or veterinarian name is null
      * @throws IllegalStateException if animal or veterinarian is not found in the database
      */
-    boolean removeAnimal(String veterinarianName, String animalName);
+    boolean removeAnimal(String animalName, String veterinarianName);
 }

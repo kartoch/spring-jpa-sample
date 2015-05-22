@@ -13,7 +13,7 @@ import javax.annotation.Resource;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {JpaAppConfiguration.class})
+@ContextConfiguration(classes = {JpaSpringInitializerApplication.class})
 @TransactionConfiguration
 @Transactional
 public class VeterinarianServiceTest {
@@ -38,48 +38,48 @@ public class VeterinarianServiceTest {
         owner = ownerService.create("owner");
         animal1 = animalService.create("animal1", "owner");
         animal2 = animalService.create("animal2", "owner");
-        veterinarian1 = veterinarianService.create("veterinarian1");
-        veterinarian2 = veterinarianService.create("veterinarian2");
+        veterinarian1 = veterinarianService.createVeterinarian("veterinarian1");
+        veterinarian2 = veterinarianService.createVeterinarian("veterinarian2");
         veterinarianService.addAnimal("animal1", "veterinarian1");
         veterinarianService.addAnimal("animal1", "veterinarian2");
         veterinarianService.addAnimal("animal2", "veterinarian1");
     }
 
     @Test
-    public void testcreate() {
+    public void testCreateVeterinarian() {
         assertNotNull(veterinarianService.findByName("veterinarian1"));
         assertEquals("veterinarian1", veterinarianService.findByName("veterinarian1").getName());
     }
 
 
     @Test(expected = NullPointerException.class)
-    public void testcreateFailsIfVeterinarianNull() {
-        veterinarianService.create(null);
+    public void testCreateVeterinarianFailsIfVeterinarianNull() {
+        veterinarianService.createVeterinarian(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testcreateFailsIfVeterinarianPresent() {
-        veterinarianService.create("veterinarian1");
+    public void testCreateVeterinarianFailsIfVeterinarianPresent() {
+        veterinarianService.createVeterinarian("veterinarian1");
     }
 
     @Test
-    public void testremove() {
-        veterinarianService.remove("veterinarian1");
+    public void testRemoveVeterinarian() {
+        veterinarianService.removeVeterinarian("veterinarian1");
         assertEquals(1, veterinarianService.findAll().size());
         assertEquals(2, animalService.findAll().size());
-        veterinarianService.remove("veterinarian2");
+        veterinarianService.removeVeterinarian("veterinarian2");
         assertEquals(0, veterinarianService.findAll().size());
         assertEquals(2, animalService.findAll().size());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testremoveFailsIfVeterinarianNotPresent() {
-        veterinarianService.remove("veterinarian-not-present");
+    public void testRemoveVeterinarianFailsIfVeterinarianNotPresent() {
+        veterinarianService.removeVeterinarian("veterinarian-not-present");
     }
 
     @Test(expected = NullPointerException.class)
-    public void testremoveFailsIfNameNull() {
-        veterinarianService.remove(null);
+    public void testRemoveVeterinarianFailsIfNameNull() {
+        veterinarianService.removeVeterinarian(null);
     }
 
     @Test
