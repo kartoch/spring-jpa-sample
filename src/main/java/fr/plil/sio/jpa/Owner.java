@@ -24,10 +24,6 @@ public class Owner implements Serializable {
     @OneToMany(mappedBy = "owner", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private List<Animal> animals = new LinkedList<Animal>();
 
-    public long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -40,38 +36,6 @@ public class Owner implements Serializable {
         return animals;
     }
 
-    /**
-     * Add an animal to the owner.
-     *
-     * @param animal the animal to add to the owner
-     * @throws IllegalStateException if animal already present
-     * @throws NullPointerException  if parameter is null
-     */
-    public void addAnimal(Animal animal) {
-        if (animal == null)
-            throw new NullPointerException("animal must be not null");
-        if (animals.contains(animal))
-            throw new IllegalStateException("animal already present in owner");
-        animals.add(animal);
-        animal.setOwner(this);
-    }
-
-    /**
-     * Remove an animal from the owner.
-     *
-     * @param animal the animal to remove from the owner
-     * @throws IllegalStateException if animal not present in owner
-     * @throws NullPointerException  if parameter is null
-     */
-    public void removeAnimal(Animal animal) {
-        if (animal == null)
-            throw new NullPointerException("animal must be not null");
-        if (!animals.contains(animal))
-            throw new IllegalStateException("animal not present in owner");
-        animals.remove(animal);
-        animal.setOwner(null);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,9 +43,7 @@ public class Owner implements Serializable {
 
         Owner owner = (Owner) o;
 
-        if (!name.equals(owner.name)) return false;
-
-        return true;
+        return name.equals(owner.name);
     }
 
     @Override

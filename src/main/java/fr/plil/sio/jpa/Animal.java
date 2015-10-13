@@ -31,10 +31,6 @@ public class Animal implements Serializable {
     @ManyToMany(mappedBy = "animals")
     private List<Veterinarian> veterinarians = new LinkedList<Veterinarian>();
 
-    public Long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
@@ -62,9 +58,7 @@ public class Animal implements Serializable {
 
         Animal animal = (Animal) o;
 
-        if (!name.equals(animal.name)) return false;
-
-        return true;
+        return name.equals(animal.name);
     }
 
     @Override
