@@ -1,18 +1,16 @@
 package fr.plil.sio.jpa;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
-@Service("animalService")
+@Service
 public class AnimalServiceImpl implements AnimalService {
 
-    @Resource
     private AnimalRepository animalRepository;
 
-    @Resource
     private OwnerService ownerService;
 
     @Override
@@ -78,5 +76,15 @@ public class AnimalServiceImpl implements AnimalService {
         }
 
         return animalRepository.findByName(name);
+    }
+
+    @Autowired
+    public void setAnimalRepository(AnimalRepository animalRepository) {
+        this.animalRepository = animalRepository;
+    }
+
+    @Autowired
+    public void setOwnerService(OwnerService ownerService) {
+        this.ownerService = ownerService;
     }
 }

@@ -1,19 +1,15 @@
 package fr.plil.sio.jpa;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
-@Service("ownerService")
+@Service
 public class OwnerServiceImpl implements OwnerService {
 
-    @Resource
     private OwnerRepository ownerRepository;
-
-    @Resource
-    private AnimalService animalService;
 
     @Override
     @Transactional
@@ -63,5 +59,10 @@ public class OwnerServiceImpl implements OwnerService {
         }
 
         return ownerRepository.findByName(name);
+    }
+
+    @Autowired
+    public void setOwnerRepository(OwnerRepository ownerRepository) {
+        this.ownerRepository = ownerRepository;
     }
 }

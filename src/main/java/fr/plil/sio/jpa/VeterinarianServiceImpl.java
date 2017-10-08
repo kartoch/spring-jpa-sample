@@ -2,21 +2,19 @@ package fr.plil.sio.jpa;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 
-@Service("veterinarianService")
+@Service
 public class VeterinarianServiceImpl implements VeterinarianService {
 
     private final static Logger logger = LoggerFactory.getLogger(VeterinarianServiceImpl.class);
 
-    @Resource
     private VeterinarianRepository veterinarianRepository;
 
-    @Resource
     private AnimalService animalService;
 
     @Override
@@ -121,5 +119,15 @@ public class VeterinarianServiceImpl implements VeterinarianService {
         animal.getVeterinarians().remove(veterinarian);
 
         return true;
+    }
+
+    @Autowired
+    public void setVeterinarianRepository(VeterinarianRepository veterinarianRepository) {
+        this.veterinarianRepository = veterinarianRepository;
+    }
+
+    @Autowired
+    public void setAnimalService(AnimalService animalService) {
+        this.animalService = animalService;
     }
 }
